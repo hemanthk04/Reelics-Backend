@@ -67,7 +67,7 @@ public class TrackProcessingService {
                     track.getId() + ".mp3"
             );
 
-            track.setDriveStreamURL(streamUrl);
+            track.setStorageURL(streamUrl);
             track.setStatus(ProcessingStatus.COMPLETE);
             trackRepo.save(track);
 

@@ -20,10 +20,10 @@ public class Track {
     @Enumerated(EnumType.STRING)
     private ProcessingStatus status;
 
-    //Related to Google Drive, My Blob storage
-    private String driveFileId;
-    private String driveFileName;
-    private String driveStreamURL;
+    //Related to Cloudflare, My Blob storage
+    private String objectKey;
+    private String fileName;
+    private String storageURL;
 
     //Related to Song, as these are only possible meta-data that is able to and worth collecting
     private Integer durationInSeconds;
@@ -80,28 +80,28 @@ public class Track {
         this.status = status;
     }
 
-    public String getDriveFileId() {
-        return driveFileId;
+    public String getObjectKey() {
+        return objectKey;
     }
 
-    public void setDriveFileId(String driveFileId) {
-        this.driveFileId = driveFileId;
+    public void setObjectKey(String objectKey) {
+        this.objectKey = objectKey;
     }
 
-    public String getDriveFileName() {
-        return driveFileName;
+    public String getFileName() {
+        return fileName;
     }
 
-    public void setDriveFileName(String driveFileName) {
-        this.driveFileName = driveFileName;
+    public void setFileName(String fileName) {
+        this.fileName = fileName;
     }
 
-    public String getDriveStreamURL() {
-        return driveStreamURL;
+    public String getStorageURL() {
+        return storageURL;
     }
 
-    public void setDriveStreamURL(String driveStreamURL) {
-        this.driveStreamURL = driveStreamURL;
+    public void setStorageURL(String storageURL) {
+        this.storageURL = storageURL;
     }
 
     public Integer getDurationSeconds() {
