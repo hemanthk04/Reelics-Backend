@@ -7,6 +7,7 @@ import software.amazon.awssdk.core.sync.RequestBody;
 import software.amazon.awssdk.regions.Region;
 import software.amazon.awssdk.services.s3.S3Client;
 import software.amazon.awssdk.services.s3.model.PutObjectRequest;
+import software.amazon.awssdk.services.s3.model.DeleteObjectRequest;
 
 import java.io.File;
 import java.net.URI;
@@ -38,6 +39,15 @@ public class R2StorageService {
                         .chunkedEncodingEnabled(false)
                 )
                 .build();
+    }
+
+    public void deleteObject(String key) {
+        DeleteObjectRequest request = DeleteObjectRequest.builder()
+                .bucket(bucket)
+                .key(key)
+                .build();
+
+        s3.deleteObject(request);
     }
 
     public String upload(File file, String key) {

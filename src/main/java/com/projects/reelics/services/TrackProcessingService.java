@@ -22,6 +22,33 @@ public class TrackProcessingService {
     private final DownloadAudioService downloadAudioService;
     private final R2StorageService r2StorageService;
 
+    public Track updateDisplayName(UUID id, String displayName) {
+        Track track = trackRepo.findById(id)
+                .orElseThrow(() -> new RuntimeException("Track not found"));
+
+        track.setDisplayName(displayName);
+
+        return trackRepo.save(track);
+    }
+
+    public Track updateFavorite(UUID id, boolean favorite) {
+        Track track = trackRepo.findById(id)
+                .orElseThrow(() -> new RuntimeException("Track not found"));
+
+        track.setFavorite(favorite);
+
+        return trackRepo.save(track);
+    }
+
+    public void deleteTrack(UUID id) {
+        Track track = trackRepo.findById(id)
+                .orElseThrow(() -> new RuntimeException("Track not found"));
+
+        r2StorageService.deleteObject(track.getObjectKey());
+
+        trackRepo.delete(track);
+    }
+
     public TrackProcessingService(
             TrackRepo trackRepo,
             DownloadAudioService downloadAudioService,
@@ -62,13 +89,18 @@ public class TrackProcessingService {
                     track.getId()
             );
 
+            String objectKey = track.getId() + ".mp3";
+
             String streamUrl = r2StorageService.upload(
                     audioFile,
-                    track.getId() + ".mp3"
+                    objectKey
             );
 
+            track.setObjectKey(objectKey);
+            track.setFileName(audioFile.getName());
             track.setStorageURL(streamUrl);
             track.setStatus(ProcessingStatus.COMPLETE);
+
             trackRepo.save(track);
 
         } catch (Exception e) {

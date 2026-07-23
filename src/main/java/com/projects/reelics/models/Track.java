@@ -13,12 +13,18 @@ public class Track {
     @GeneratedValue
     private UUID id;
 
+    @Column(nullable = false)
+    private String displayName;
+
     @Column(nullable = false, length = 1000)
     private String instagramURL;
 
     @Column(nullable = false)
     @Enumerated(EnumType.STRING)
     private ProcessingStatus status;
+
+    @Column(nullable = false)
+    private boolean favorite = false;
 
     //Related to Cloudflare, My Blob storage
     private String objectKey;
@@ -53,6 +59,10 @@ public class Track {
         this.createdAt = Instant.now();
         this.updatedAt = this.createdAt;
         this.status = ProcessingStatus.PENDING;
+
+        if (this.displayName == null || this.displayName.isBlank()) {
+            this.displayName = "Untitled";
+        }
     }
     @PreUpdate
     protected void onUpdate() {
@@ -62,6 +72,22 @@ public class Track {
     //Getters and Setters of above-mentioned attributes
     public UUID getId() {
         return id;
+    }
+
+    public String getDisplayName() {
+        return displayName;
+    }
+
+    public void setDisplayName(String displayName) {
+        this.displayName = displayName;
+    }
+
+    public boolean isFavorite() {
+        return favorite;
+    }
+
+    public void setFavorite(boolean favorite) {
+        this.favorite = favorite;
     }
 
     public String getInstagramURL() {

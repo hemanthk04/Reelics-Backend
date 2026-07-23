@@ -12,6 +12,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
+import com.projects.reelics.dto.UpdateDisplayNameRequest;
+import com.projects.reelics.dto.UpdateFavoriteRequest;
 
 import java.util.List;
 import java.util.UUID;
@@ -67,4 +69,29 @@ public class TrackController {
         return ResponseEntity.accepted().build();
     }
 
+    @PatchMapping("/{id}/display-name")
+    public ResponseEntity<Track> updateDisplayName(
+            @PathVariable UUID id,
+            @RequestBody UpdateDisplayNameRequest request
+    ) {
+        return ResponseEntity.ok(
+                trackProcessingService.updateDisplayName(id, request.getDisplayName())
+        );
+    }
+
+    @PatchMapping("/{id}/favorite")
+    public ResponseEntity<Track> updateFavorite(
+            @PathVariable UUID id,
+            @RequestBody UpdateFavoriteRequest request
+    ) {
+        return ResponseEntity.ok(
+                trackProcessingService.updateFavorite(id, request.isFavorite())
+        );
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deleteTrack(@PathVariable UUID id) {
+        trackProcessingService.deleteTrack(id);
+        return ResponseEntity.noContent().build();
+    }
 }

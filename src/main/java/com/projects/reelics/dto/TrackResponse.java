@@ -6,7 +6,10 @@ import java.time.Instant;
 import java.util.UUID;
 
 public record TrackResponse(UUID id,
+                            String displayName,
                             String instagramURL,
                             ProcessingStatus status,
+                            boolean favorite,
                             String streamUrl,
+                            Integer durationInSeconds,
                             Instant createdAt) {}
